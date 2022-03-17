@@ -23,7 +23,7 @@ namespace RabbitMqService.BL.Services
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            _channel.ExchangeDeclare("person", ExchangeType.Fanout);
+            _channel.ExchangeDeclare("person", ExchangeType.Fanout,durable:true);
 
             _channel.QueueDeclare("person", durable: true, exclusive: false, autoDelete: false);
         }

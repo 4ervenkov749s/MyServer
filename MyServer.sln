@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServer", "MyServer\MyServer.csproj", "{6764F334-688F-4094-AFF0-3A6CF1B8F8B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer", "MyServer\MyServer.csproj", "{6764F334-688F-4094-AFF0-3A6CF1B8F8B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMqService.BL", "RabbitMqService.BL\RabbitMqService.BL.csproj", "{665DF581-9B8E-4998-BCCC-48176F7DC56B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMqService.BL", "RabbitMqService.BL\RabbitMqService.BL.csproj", "{665DF581-9B8E-4998-BCCC-48176F7DC56B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMqService.Models", "RabbitMqService.Models\RabbitMqService.Models.csproj", "{C312A2F6-099F-42B1-994C-0BA540706EDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMqService.Models", "RabbitMqService.Models\RabbitMqService.Models.csproj", "{C312A2F6-099F-42B1-994C-0BA540706EDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
