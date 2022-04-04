@@ -46,12 +46,12 @@ namespace RabbitMqService.Controllers
             return Ok();
         }
 
-        //[HttpPost("sendtoKafka")]
-        //public async Task<IActionResult> SendMsgPerson([FromBody] Person p)
-        //{
-        //    await _rabbitMqService.SendPersonAsync(p);
+        [HttpPost("sendtoKafka")]
+        public async Task<IActionResult> SendMsgPerson([FromBody] Person p)
+        {
+            await _rabbitMqService.SendPersonAsync(p);
 
-        //    return Ok();
-        //}
+            return Ok();
+        }
     }
 }
