@@ -4,8 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MyRabbitMqService.DL;
 using RabbitMqService.BL.Interfaces;
 using RabbitMqService.BL.Services;
+using RabbitMqService.Models;
 
 namespace MyServer
 {
@@ -20,9 +22,14 @@ namespace MyServer
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<IRabbitMqService, RabbitMqService5>();
+        { 
+            services.Configure<MongoDbConfiguration>(Configuration.GetSection(nameof(MongoDbConfiguration)));
 
+            services.AddSingleton<IRabbitMqService, RabbitMqService5>();
+            services.AddSingleton<IPersonRepository, PersonRepository>();     
+            services.AddHostedService<CachePublisher>();
+            services.AddSingleton<IKafkaService, KafkaService>();
+ 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

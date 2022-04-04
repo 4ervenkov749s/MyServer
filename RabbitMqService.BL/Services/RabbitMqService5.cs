@@ -5,6 +5,7 @@ using RabbitMQ.Client;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using MessagePack;
 
 namespace RabbitMqService.BL.Services
 {
@@ -23,7 +24,7 @@ namespace RabbitMqService.BL.Services
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            _channel.ExchangeDeclare("person", ExchangeType.Fanout,durable:true);
+            _channel.ExchangeDeclare("person", ExchangeType.Direct, durable: true);
 
             _channel.QueueDeclare("person", durable: true, exclusive: false, autoDelete: false);
         }
@@ -38,8 +39,7 @@ namespace RabbitMqService.BL.Services
         {
             await Task.Factory.StartNew(() =>
             {
-                var serialize = JsonConvert.SerializeObject(p);
-                var body = Encoding.UTF8.GetBytes(serialize);
+                var body = MessagePackSerializer.Serialize(p);
 
                 _channel.BasicPublish("", "person", body: body);
             });
