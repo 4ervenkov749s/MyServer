@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MyRabbitMqService.DL;
+using RabbitMqService.BL.DataFlow;
 using RabbitMqService.BL.Interfaces;
 using RabbitMqService.BL.Services;
 using RabbitMqService.Models;
@@ -25,11 +26,17 @@ namespace MyServer
         { 
             services.Configure<MongoDbConfiguration>(Configuration.GetSection(nameof(MongoDbConfiguration)));
 
+            //services.AddHostedService<KafkaConsumer<Person>>();
+            services.AddHostedService<KafkaPersonConsumer>();
+            services.AddSingleton<IPersonDataFlow, PersonDataFlow>();
             services.AddSingleton<IRabbitMqService, RabbitMqService5>();
             services.AddSingleton<IPersonRepository, PersonRepository>();     
             services.AddHostedService<CachePublisher>();
             services.AddSingleton<IKafkaService, KafkaService>();
- 
+            services.AddSingleton<IKafkaAdminService, KafkaAdminService>();
+            services.AddHostedService<CachePublisherKafka>();
+
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

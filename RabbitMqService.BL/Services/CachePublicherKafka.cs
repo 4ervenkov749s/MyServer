@@ -5,21 +5,19 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-
-
 namespace RabbitMqService.BL.Services
 {
-    public class CachePublisher : IHostedService, IDisposable
+    public class CachePublisherKafka : IHostedService, IDisposable
     {
         private Timer _timer;
         private DateTime _lastPublished = DateTime.Now;
         private readonly IPersonRepository _personRepository;
-        private readonly IRabbitMqService _rabbitMq;
+        private readonly IKafkaService _kafkaService;
 
-        public CachePublisher(IPersonRepository personRepository, IRabbitMqService rabbitMq)
+        public CachePublisherKafka(IPersonRepository personRepository, IKafkaService kafkaService)
         {
             _personRepository = personRepository;
-            _rabbitMq = rabbitMq;
+            _kafkaService = kafkaService;
 
             //personRepository.Add(new Person()
             //{
@@ -38,15 +36,15 @@ namespace RabbitMqService.BL.Services
 
         }
 
-        private async void DoWork(object state) 
+        private async void DoWork(object state)
         {
-             var persons = await _personRepository.GetAllByDate(_lastPublished.ToUniversalTime());
+            var persons = await _personRepository.GetAllByDate(_lastPublished.ToUniversalTime());
 
             DateTime lastDate;
 
             foreach (var person in persons)
             {
-                _rabbitMq.SendPersonAsync(person);
+                _kafkaService.SendPersonAsync(person);
             }
             _lastPublished = DateTime.Now;
 

@@ -17,13 +17,15 @@ namespace RabbitMqService.Controllers
         private readonly ILogger<PersonController> _logger;
         private readonly IPersonRepository _personRepository;
         private readonly IKafkaService _kafkaService;
+        private readonly IKafkaAdminService _kafkaAdmin;
 
-        public PersonController(ILogger<PersonController> logger, IRabbitMqService rabbitMqService, IPersonRepository personRepository, IKafkaService kafkaService)
+        public PersonController(ILogger<PersonController> logger, IRabbitMqService rabbitMqService, IPersonRepository personRepository, IKafkaService kafkaService, IKafkaAdminService kafkaAdmin)
         {
             _logger = logger;
             _rabbitMqService = rabbitMqService;
             _personRepository = personRepository;
             _kafkaService = kafkaService;
+            _kafkaAdmin = kafkaAdmin;
         }
 
         [HttpPost("sendPerson")]
@@ -55,5 +57,22 @@ namespace RabbitMqService.Controllers
 
             return Ok();
         }
+
+        [HttpPost("create_Topic")]
+        public async Task<IActionResult> CreateTopic(string topicName)
+        {
+            await _kafkaAdmin.CreateTopicAsync(topicName);
+
+            return Ok();
+        }
+
+        [HttpPost("Delete_Topic")]
+        public async Task<IActionResult> DeleteTopic(string topicName)
+        {
+            await _kafkaAdmin.DeleteTopicAsync(topicName);
+
+            return Ok();
+        }
+
     }
 }
